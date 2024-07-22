@@ -1,11 +1,17 @@
 # iconipy
 Say goodbye to the tedious hassle of graphic programs! Now you can create stunning icons directly from your code. With the look and feel defined right in the code, adjustments are a breeze. Plus, the included icon sets can easily be expanded with your own sets based on font files. 🎨✨
 
+**Installation**
+
+    pip install iconipy
+
+**Usage**
+
 First you initialize an "IconFactory" with an icon set and look-and-feel settings like this:
-    
+
     from iconipy import IconFactory 
     
-    create_button_icons = IconFactory(
+    create_button_icon = IconFactory(
                             icon_set = 'lucide', 
                             icon_size = 64, 
                             font_size = 38,  
@@ -35,4 +41,14 @@ Feeling adventurous? Dump all the icons to your hard drive and explore:
 
     create_button_icon.saveAll(<path to target directory>)
 
+You need an arrow? Check what the icon set has to offer:
+
+    print(create_button_icon.search('arrow'))
+
+Just want a list with all icon names? No problem:
+
+    print(create_button_icon.icon_names)
+        
+**More info**
+    
 Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation.

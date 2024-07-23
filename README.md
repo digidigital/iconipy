@@ -41,9 +41,9 @@ Feeling adventurous? Dump all the icons to your hard drive and explore:
 
     create_button_icon.saveAll(<path to target directory>)
 
-You need an arrow? Check what the icon set has to offer:
+You need a hand? Check what the icon set has to offer:
 
-    print(create_button_icon.search('arrow'))
+    print(create_button_icon.search('hand'))
 
 Just want a list with all icon names? No problem:
 

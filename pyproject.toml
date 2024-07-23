@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iconipy"
+
+version = "0.1.1"
+
+authors = [
+  { name="Björn Seipel", email="support@digidigital.de" },
+]
+
+description = "Create icons for user interfaces directly from your Python code."
+
+keywords = ["UI", "GUI", "icons", "image", "icon"]
+
+readme = "README.md"
+
+requires-python = ">=3.8"
+
+classifiers = [
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+]
+
+dependencies = [
+  "pillow>=10.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/digidigital/iconipy"
+Documentation = "https://iconipy.digidigital.de"
+Issues = "https://github.com/digidigital/iconipy/issues"

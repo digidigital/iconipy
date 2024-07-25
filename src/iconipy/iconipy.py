@@ -63,7 +63,7 @@ Just want a list with all icon names? No problem:
     
 Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation.
 
-**API**"""
+**API iconipy 0.2.0**"""
 
 import os
 import io
@@ -73,10 +73,11 @@ from PIL import Image, ImageTk, ImageQt, ImageDraw, ImageFont
 from typing import Union, Tuple
 
 _ColorAttributeType = Union[Tuple, str]
+_SizeAttributeType = Union[Tuple, int]
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _ASSET_PATH = os.path.join(_SCRIPT_DIR, "assets")
-_SCRIPT_VERSION = "0.1.1"
+_SCRIPT_VERSION = "0.2.0"
 
 _lucide_cfg = {
     "FONT_FILE": os.path.join(_ASSET_PATH, "lucide", "lucide.ttf"),
@@ -207,9 +208,9 @@ class IconFactory:
     IconFactory will share the same settings, allowing you to change the style for all icons upon 
     initialization. Note that switching between icon sets may cause issues due to differing icon names.
     
-        icon_set (str): The name of the icon set.
-        icon_size (int): The size of the icons.
-        font_size (int): The size of the font. (Default is icon_size)
+        icon_set (str): The name of the icon set that will be used to create the icon.
+        icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+        font_size (int): The size of the font. Default is icon_size
         font_color (str, tuple): The color of the font. Name or RGBA-Tuple
         outline_width (int): The width of the outline. 0 does not draw an outline
         outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple
@@ -222,7 +223,7 @@ class IconFactory:
     def __init__(
         self,
         icon_set: str = "lucide",
-        icon_size: int = 64,
+        icon_size: _SizeAttributeType = 64,
         font_size: int = None,
         font_color: _ColorAttributeType = "black",
         outline_width: int = 0,
@@ -255,13 +256,8 @@ class IconFactory:
         self.icon_names = list(self._codepoints.keys())
         '''A list containing all icon names for the selected icon set'''
         
-        if font_size and font_size > icon_size:
-            font_size = icon_size
-        elif font_size:
-            pass
-        else:
-            font_size = icon_size
-
+        font_size = self._check_font_vs_icon_size(font_size, icon_size)
+        
         self._drawing_kwargs = {
             "font_path": _ICON_SETS[icon_set]["FONT_FILE"],
             "font_size": font_size,
@@ -273,6 +269,20 @@ class IconFactory:
             "icon_outline_color": outline_color,
         }
 
+    def _check_font_vs_icon_size(self, font_size, icon_size):
+        if isinstance(icon_size, int):
+            smallest_side = icon_size
+        elif isinstance(icon_size, tuple) and len(icon_size)==2 and isinstance(icon_size[0], int) and isinstance(icon_size[1], int):
+            smallest_side = icon_size[0] if icon_size[0] <= icon_size[1] else icon_size[1]    
+        else:
+            raise AttributeError('icon_size must be int or tuple (int,int)')     
+         
+        if font_size and font_size <= smallest_side:
+            return font_size  
+        else:  
+            return smallest_side
+            
+        
     def _read_codepoints(self):
         codepoints = {}
         for icon_set in _ICON_SETS.keys():
@@ -341,16 +351,22 @@ class IconFactory:
     ):
 
         # Create image
-        width = height = icon_size
-
+        if isinstance (icon_size, int):
+            width = height = icon_size
+        elif isinstance (icon_size, tuple) and isinstance (icon_size[0], int) and isinstance (icon_size[1], int):
+            width = icon_size[0]
+            height = icon_size[1]
+        else:
+            raise AttributeError ('icon_size must be of type int or tuple (int, int)')
+        
         # Add a background
         if icon_background_color or icon_outline_width:
             image = self._image_round_background(
-                size=icon_size,
-                fill=icon_background_color,
-                outline=icon_outline_color,
-                outline_width=icon_outline_width,
-                outline_radius=icon_outline_radius,
+                size = (width, height),
+                fill = icon_background_color,
+                outline = icon_outline_color,
+                outline_width = icon_outline_width,
+                outline_radius = icon_outline_radius,
             )
         else:
             image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
@@ -369,15 +385,16 @@ class IconFactory:
 
     def _image_round_background(
         self,
-        size=64,
-        fill="silver",
-        outline="grey",
-        outline_width=7,
-        outline_radius=10,
-        factor=3,
+        size = (64,64),
+        fill = "silver",
+        outline = "grey",
+        outline_width = 7,
+        outline_radius = 10,
+        factor = 3,
     ):
         """Create and return a background image with rounded corners. Set the outline radius to size/2 to achieve a circular background."""
-        width = height = size
+        width = size[0] 
+        height = size[1]
         im = Image.new("RGBA", (factor * width, factor * height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(im, "RGBA")
         draw.rounded_rectangle(
@@ -466,9 +483,9 @@ class CustomIconFactory(IconFactory):
     ('microphone'), and the values should be the corresponding
     hexadecimal codepoints ('E02A').
     
-        icon_set (str): The name of the icon set.(Default is 'custom')
-        icon_size (int): The size of the icons.
-        font_size (int): The size of the font. (Default is icon_size)
+        icon_set (str): The name of the icon set that will be used to create the icon.
+        icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+        font_size (int): The size of the font. Default is icon_size
         font_color (str, tuple): The color of the font. Name or RGBA-Tuple
         outline_width (int): The width of the outline. 0 does not draw an outline
         outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple
@@ -482,7 +499,7 @@ class CustomIconFactory(IconFactory):
     def __init__(
         self,
         icon_set: str = "custom",
-        icon_size: int = 64,
+        icon_size: _SizeAttributeType = 64,
         font_size: int = None,
         font_color: _ColorAttributeType = "black",
         outline_width: int = 0,
@@ -512,12 +529,7 @@ class CustomIconFactory(IconFactory):
         self.icon_names = list(self._codepoints.keys())
         '''A list containing all icon names for the selected icon set'''
         
-        if font_size and font_size > icon_size:
-            font_size = icon_size
-        elif font_size:
-            pass
-        else:
-            font_size = icon_size
+        font_size = self._check_font_vs_icon_size(font_size, icon_size)
 
         self._drawing_kwargs = {
             "font_path": font_path,

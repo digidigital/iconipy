@@ -13,6 +13,13 @@ These programs provide an overview of how to work with IconFactory Objects and a
 * Images / icons used as buttons
 * Toggle effect on the left button
 * Mouseover effect on the right button
+
+  
+![cool mouseover effect with FreeSimpleGUI ang PySimpleGUI Image objects](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/PySimpleGUI_mouseover_screenshot.png)
+* Images / icons used as buttons
+* Create rectangular icons
+* Create all buttons dynamically
+* Mousover effect for all buttons
 ## NiceGUI
 ![Screenshot of a NiceGUI application using iconipy icons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/NiceGUI/NiceGUI_screenshot.png)
 * Custom icon added to the push-button

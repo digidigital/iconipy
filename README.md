@@ -51,4 +51,4 @@ Just want a list with all icon names? No problem:
         
 **More info**
     
-Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation.
+Check out the [demo programs](https://github.com/digidigital/iconipy/tree/main/demo_programs) and https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation.

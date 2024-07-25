@@ -1,11 +1,12 @@
 Metadata-Version: 2.1
 Name: iconipy
-Version: 0.1.1
+Version: 0.2.0
 Summary: Create icons for user interfaces directly from your Python code.
 Author-email: Björn Seipel <support@digidigital.de>
 Project-URL: Homepage, https://github.com/digidigital/iconipy
 Project-URL: Documentation, https://iconipy.digidigital.de
 Project-URL: Issues, https://github.com/digidigital/iconipy/issues
+Project-URL: SampleCode, https://github.com/digidigital/iconipy/tree/main/demo_programs
 Keywords: UI,GUI,icons,image,icon
 Classifier: Development Status :: 4 - Beta
 Classifier: Programming Language :: Python :: 3

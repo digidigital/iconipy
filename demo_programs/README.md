@@ -9,17 +9,27 @@ These programs provide an overview of how to work with IconFactory Objects and a
 * Custom icon added to the push-button
 * Click on the button creates a new random icon
 ## FreeSimpleGUI & PySimpleGUI
+![](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreeSimpleGUI_PySimpleGUI_themed_icon_buttons.png)
+* Icons added to Button
+* Colors from Theme settings applied automatically
+* custom application icon
+
+
 ![Screenshot of a PySimpleGUI & FreeSimpleGUI application using iconipy icons.](https://github.com/digidigital/iconipy/blob/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreePyGUI_screenshot.png)
-* Images / icons used as buttons
+* Image / icons used as buttons
 * Toggle effect on the left button
 * Mouseover effect on the right button
 
   
-![cool mouseover effect with FreeSimpleGUI ang PySimpleGUI Image objects](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/PySimpleGUI_mouseover_screenshot.png)
-* Images / icons used as buttons
+![cool mouseover effect with FreeSimpleGUI and PySimpleGUI Image objects](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/PySimpleGUI_mouseover_screenshot.png)
+* Image / icons used as buttons
 * Create rectangular icons
 * Create all buttons dynamically
 * Mousover effect for all buttons
+
+![mouseover effect with tooltip FreeSimpleGUI and PySimpleGUI Image objects](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreeSimpleGUI_mouseover_screenshot.png)
+* Enhanced version with working tooltips
+  
 ## NiceGUI
 ![Screenshot of a NiceGUI application using iconipy icons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/NiceGUI/NiceGUI_screenshot.png)
 * Custom icon added to the push-button

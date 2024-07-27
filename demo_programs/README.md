@@ -12,7 +12,8 @@ These programs provide an overview of how to work with IconFactory Objects and a
 ![](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreeSimpleGUI_PySimpleGUI_themed_icon_buttons.png)
 * Icons added to Button
 * Colors from Theme settings applied automatically
-* custom application icon
+* Mouseover effect  
+* Custom application icon
 
 
 ![Screenshot of a PySimpleGUI & FreeSimpleGUI application using iconipy icons.](https://github.com/digidigital/iconipy/blob/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreePyGUI_screenshot.png)

@@ -65,7 +65,7 @@ Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de f
 
 **Iconify vs. iconipy**
 
-Iconify is totally unrelated to the iconpy project. Iconify is more mature and powerful, but the focus is on SVG files rather than bitmaps. You can explore it further on their website: https://iconify.design
+Iconify is totally unrelated to the iconipy project. Iconify is more mature and powerful, but the focus is on SVG files rather than bitmaps. You can explore it further on their website: https://iconify.design
 
 # iconipy API 0.3.0"""
 

@@ -32,7 +32,7 @@ First you initialize an "IconFactory" with an icon set and look-and-feel setting
                             background_radius = 10
     ) 
     
-Then you create your icons: 
+Then you create your icons by just passing a name to a function call. Iconipy uses a codepoints dictionary to 'translate' names into characters/icons: 
 
     icon_home = create_button_icon.asPil('house')
     icon_reload = create_button_icon.asPil('refresh-cw')
@@ -63,13 +63,17 @@ Just want a list with all icon names? No problem:
     
 Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation.
 
-**API iconipy 0.2.0**"""
+**Iconify vs. iconipy**
+
+Iconify is totally unrelated to the iconpy project. Iconify is more mature and powerful, but the focus is on SVG files rather than bitmaps. You can explore it further on their website: https://iconify.design
+
+# iconipy API 0.3.0"""
 
 import os
 import io
 import re
 import json
-from PIL import Image, ImageTk, ImageQt, ImageDraw, ImageFont
+from PIL import Image, ImageTk, ImageQt, ImageDraw, ImageFont, ImageOps
 from typing import Union, Tuple
 
 _ColorAttributeType = Union[Tuple, str]
@@ -77,7 +81,7 @@ _SizeAttributeType = Union[Tuple, int]
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _ASSET_PATH = os.path.join(_SCRIPT_DIR, "assets")
-_SCRIPT_VERSION = "0.2.0"
+_SCRIPT_VERSION = "0.3.0"
 
 _lucide_cfg = {
     "FONT_FILE": os.path.join(_ASSET_PATH, "lucide", "lucide.ttf"),
@@ -204,17 +208,17 @@ _ICON_SETS = {
 
 
 class IconFactory:
-    """Create an IconFactory for one of the icon sets included with iconiPy. All icons created by this 
+    """Create an IconFactory for one of the icon sets included with iconipy. All icons created by this 
     IconFactory will share the same settings, allowing you to change the style for all icons upon 
-    initialization. Note that switching between icon sets may cause issues due to differing icon names.
+    initialization.
     
         icon_set (str): The name of the icon set that will be used to create the icon.
         icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
         font_size (int): The size of the font. Default is icon_size
-        font_color (str, tuple): The color of the font. Name or RGBA-Tuple
+        font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
         outline_width (int): The width of the outline. 0 does not draw an outline
-        outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple
-        background_color (str, tuple): The background color. Name or RGBA-Tuple
+        outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple or hex string
+        background_color (str, tuple): The background color. Name or RGBA-Tuple or hex string
         background_radius (int): The radius of the background corners.
     """
 
@@ -234,18 +238,13 @@ class IconFactory:
         if not icon_set in _ICON_SETS.keys():
             raise ValueError(f'Unknown icon set "{icon_set}"')
 
+        self.icon_set_name = icon_set
+        '''Stores the name of the icon set'''
+        
         self.icon_set_version = self._get_icon_set_version(
             _ICON_SETS[icon_set]["VERSION_FILE"]
         )
         '''Stores the version string for the icon set'''
-        
-        self.icon_set = icon_set
-        '''Stores the name of the icon set'''
-        
-        self.license = self._get_license_text(
-            _ICON_SETS[icon_set]["LICENSE_FILE"]
-        )
-        '''The icon set's license'''
 
         try:
             self._codepoints = IconFactory._all_codepoints[icon_set]
@@ -254,21 +253,88 @@ class IconFactory:
             self._codepoints = IconFactory._all_codepoints[icon_set]
         
         self.icon_names = list(self._codepoints.keys())
-        '''A list containing all icon names for the selected icon set'''
+        '''A list of all icon names for the selected icon set. When the documentation states that *"name" must be a valid key for the codepoints dictionary*, it means the name you enter must be included in this list.'''
         
+        self.license = self._get_license_text(
+            _ICON_SETS[icon_set]["LICENSE_FILE"]
+        )
+        '''The icon set's license'''        
         font_size = self._check_font_vs_icon_size(font_size, icon_size)
         
         self._drawing_kwargs = {
             "font_path": _ICON_SETS[icon_set]["FONT_FILE"],
+            "icon_size": icon_size,
             "font_size": font_size,
             "font_color": font_color,
-            "icon_size": icon_size,
-            "icon_background_color": background_color,
             "icon_outline_width": outline_width,
-            "icon_outline_radius": background_radius,
             "icon_outline_color": outline_color,
+            "icon_background_color": background_color,
+            "icon_background_radius": background_radius,
         }
 
+    def changeIconSet(self, icon_set: str) -> list:
+        '''Change to a different icon set and retrieve a list containing the icon names
+        of the new set. Available icon sets include: lucide, boxicons, lineicons, material_icons_regular, 
+        material_icons_round_regular, material_icons_sharp_regular, and material_icons_outlined_regular.
+        
+            icon_set (str): The name of the icon set that will be used to create the icons.
+        '''
+        if not icon_set in _ICON_SETS.keys():
+            raise ValueError(f'Unknown icon set "{icon_set}"')
+        self.icon_set_name=icon_set        
+        self._drawing_kwargs['font_path']=_ICON_SETS[icon_set]["FONT_FILE"]
+        self._codepoints = IconFactory._all_codepoints[icon_set]
+        self.icon_names = list(self._codepoints.keys())
+        self.license = self._get_license_text(
+            _ICON_SETS[icon_set]["LICENSE_FILE"]
+        )
+        self.icon_set_version = self._get_icon_set_version(
+            _ICON_SETS[icon_set]["VERSION_FILE"]
+        )
+        return self.icon_names
+    
+    def updateCfg (self,
+                    icon_size: _SizeAttributeType = None,
+                    font_size: int = None,
+                    font_color: _ColorAttributeType = None,
+                    outline_width: int = None,
+                    outline_color: _ColorAttributeType = None,
+                    background_color: _ColorAttributeType = None,
+                    background_radius: int = None,
+                    ) -> dict:
+        '''Modify one or more parameters of the IconFactory object and retrieve a dictionary containing 
+        the updated configuration. Typically, distinct IconFactories are created for different icon 
+        styles, but there may be scenarios where reusing an existing object is desirable.
+        
+            icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+            font_size (int): The size of the font. Default is icon_size
+            font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
+            outline_width (int): The width of the outline. 0 does not draw an outline
+            outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple or hex string
+            background_color (str, tuple): The background color. Name or RGBA-Tuple or hex string
+            background_radius (int): The radius of the background corners.        
+        '''            
+        if not icon_size == None:
+            if isinstance(icon_size, int):
+                icon_size = icon_size if icon_size>0 else 1
+            elif isinstance(icon_size, tuple): 
+                icon_size = (icon_size[0] if icon_size[0]>0 else 1, icon_size[1] if icon_size[1]>0 else 1)
+            self._drawing_kwargs['icon_size']=icon_size
+        if not font_size ==None:
+            self._drawing_kwargs['font_size']=self._check_font_vs_icon_size(font_size, icon_size)
+        if not font_color == None:
+            self._drawing_kwargs['font_color']=font_color
+        if not outline_width == None:
+            self._drawing_kwargs['icon_outline_width']=outline_width if outline_width>=0 else 0 
+        if not outline_color == None:
+            self._drawing_kwargs['icon_outline_color']=outline_color
+        if not background_color == None:
+            self._drawing_kwargs['icon_background_color']=background_color
+        if not background_radius == None:
+            self._drawing_kwargs['icon_background_radius']=background_radius if background_radius>=0 else 0                                                                     
+        
+        return self._drawing_kwargs
+        
     def _check_font_vs_icon_size(self, font_size, icon_size):
         if isinstance(icon_size, int):
             smallest_side = icon_size
@@ -277,12 +343,11 @@ class IconFactory:
         else:
             raise AttributeError('icon_size must be int or tuple (int,int)')     
          
-        if font_size and font_size <= smallest_side:
-            return font_size  
+        if isinstance(font_size, int) and font_size <= smallest_side:
+            return font_size if font_size >= 0 else 0  
         else:  
-            return smallest_side
-            
-        
+            return smallest_side if smallest_side > 0 else 1
+                
     def _read_codepoints(self):
         codepoints = {}
         for icon_set in _ICON_SETS.keys():
@@ -346,7 +411,7 @@ class IconFactory:
         icon_size=32,
         icon_background_color=None,
         icon_outline_width=0,
-        icon_outline_radius=0,
+        icon_background_radius=0,
         icon_outline_color="dimgrey",
     ):
 
@@ -366,21 +431,22 @@ class IconFactory:
                 fill = icon_background_color,
                 outline = icon_outline_color,
                 outline_width = icon_outline_width,
-                outline_radius = icon_outline_radius,
+                outline_radius = icon_background_radius,
             )
         else:
             image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
 
-        # Load font
-        font = ImageFont.truetype(font_path, font_size)
+        if font_size > 0:
+            # Load font
+            font = ImageFont.truetype(font_path, font_size)
 
-        # Draw character
-        draw = ImageDraw.Draw(image)
+            # Draw character
+            draw = ImageDraw.Draw(image)
 
-        x = width // 2
-        y = height // 2
+            x = width // 2
+            y = height // 2
 
-        draw.text((x, y), character, font=font, anchor="mm", fill=font_color)
+            draw.text((x, y), character, font=font, anchor="mm", fill=font_color)
         return image
 
     def _image_round_background(
@@ -398,7 +464,7 @@ class IconFactory:
         im = Image.new("RGBA", (factor * width, factor * height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(im, "RGBA")
         draw.rounded_rectangle(
-            (0, 0, factor * width, factor * height),
+            (0, 0, (factor * width)-1, (factor * height)-1),
             radius=factor * outline_radius,
             outline=outline,
             fill=fill,
@@ -415,27 +481,34 @@ class IconFactory:
         """Create image as PIL Image Object, "name" must be a valid key for the codepoints dictionary"""
         if not name in self._codepoints:
             raise ValueError(
-                f'Icon with name "{name}" not available. Icon Set: {self.icon_set}, Version: {self.icon_set_version}'
+                f'Icon with name "{name}" not available. Icon Set: {self.icon_set_name}, Version: {self.icon_set_version}'
             )
 
         character = chr(int(self._codepoints[name], 16))
         return self._draw_character(character, **self._drawing_kwargs)
 
     def asTkPhotoImage(self, name: str):
-        """Create image as tkinter PhotoImage Object, "name" must be a valid key for the codepoints dictionary"""
+        """Create image as tkinter PhotoImage Object. Make sure you initialize tkinter first. Place your function call after creating the root instance (root = Tk() or equivalent for other GUI frameworks), "name" must be a valid key for the codepoints dictionary"""
         return ImageTk.PhotoImage(self.asPil(name))
 
+    def asTkBitmapImage(self, name: str):
+        """Create image as *monochrome* (two-color) tkinter BitmapImage Object. Make sure you initialize tkinter first. Place your function call after creating the root instance (root = Tk() or equivalent for other GUI frameworks),  "name" must be a valid key for the codepoints dictionary"""
+        mode_one_img = self.asPil(name).convert("1")
+        inverted_img = ImageOps.invert(mode_one_img)
+        return ImageTk.BitmapImage(inverted_img)
+           
     def asBytes(self, name: str, image_format: str="PNG"):
-        """Returns image data as byte-string, "name" must be a valid key for the codepoints dictionary, image_format is one of PIL Image formats"""
+        """Returns image data as bytestring, "name" must be a valid key for the codepoints dictionary, the image_format parameter should be set to one of the formats supported by Pillow. These formats include common image types like JPEG, PNG, ICO, and GIF"""
         with io.BytesIO() as output:
             self.asPil(name).save(output, format=image_format)
             return output.getvalue()
 
     def asBytesIo(self, name: str, image_format: str="PNG"):
-        """Returns image data as BytesIO object, name" must be a valid key for the codepoints dictionary, image_format is one of PIL Image formats"""
-        with io.BytesIO() as output:
-            self.asPil(name).save(output, format=image_format)
-            return output
+        """Returns image data as BytesIO object, "name" must be a valid key for the codepoints dictionary, the image_format parameter should be set to one of the formats supported by Pillow. These formats include common image types like JPEG, PNG, ICO, and GIF"""
+        output = io.BytesIO()
+        self.asPil(name).save(output, format=image_format)
+        output.seek(0)
+        return output
 
     def asRawList(self, name: str, type: str="RGB"):
         """Returns the pixel data of the image as a list. "name" must be a valid key for the codepoints dictionary, type="RGB" contains values 0-255, type="FLOAT" contains values 0-1"""
@@ -458,21 +531,28 @@ class IconFactory:
                 pixel_data.append(_calc_pixel_value(pixel[3], type))
         return pixel_data
 
-    def asQtImage(self, name: str):
+    def asQImage(self, name: str):
         """Create image as QImage Object, "name" must be a valid key for the codepoints dictionary"""
         return ImageQt.ImageQt(self.asPil(name))
 
-    def save(self, name: str, save_as: str):
-        """Saves the icon to path "save_as", the format of the image is determined by the file extension, "name" must be a valid key for the codepoints dictionary"""
-        self.asPil(name).save(save_as)
+    def asQPixmap(self, name: str):
+        """Create image as QPixmap Object, "name" must be a valid key for the codepoints dictionary"""
+        return ImageQt.toqpixmap(self.asPil(name))
 
-    def saveAll(self, save_to_dir: str, extension="png"):
-        '''Saves all icons in the icon set to path "save_to_dir", the format of the image is determined by the file extension "extension"'''
+    def save(self, name: str, save_as: str):
+        """Saves the icon to file "save_as", the image format is determined by the file extension and should be set to one of the formats supported by Pillow, "name" must be a valid key for the codepoints dictionary"""
+        kwargs={}
+        if save_as.lower().endswith('.ico'):
+            kwargs['sizes'] = [self._drawing_kwargs['icon_size']]
+        self.asPil(name).save(save_as, **kwargs)
+
+    def saveAll(self, save_to_dir: str, extension: str="png"):
+        '''Saves all icons in the icon set to path "save_to_dir", the image format is determined by the "extension" and should be set to one of the formats supported by Pillow. Only formats that support transparency (ico, png, gif, webp, jp2, ...) are supported.'''
         for name in self._codepoints.keys():
-            self.save(name, os.path.join(save_to_dir, f"{name}.{extension}"))
+            self.save(name, os.path.join(save_to_dir, f"{name}.{extension.lower()}"))
 
     def show(self, name: str):
-        """Show the icon in an external viewer using the PIL Image.show() method. Name must be a valid key for the codepoints dictionary"""
+        """Show the icon in an external viewer using the PIL Image.show() method. "name" must be a valid key for the codepoints dictionary"""
         self.asPil(name).show()
 
 
@@ -486,10 +566,10 @@ class CustomIconFactory(IconFactory):
         icon_set (str): The name of the icon set that will be used to create the icon.
         icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
         font_size (int): The size of the font. Default is icon_size
-        font_color (str, tuple): The color of the font. Name or RGBA-Tuple
+        font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
         outline_width (int): The width of the outline. 0 does not draw an outline
-        outline_color (str, tuple): The color of the outline.  Name or RGBA-Tuple
-        background_color (str, tuple): The background color. Name or RGBA-Tuple
+        outline_color (str, tuple): The color of the outline.  Name, RGBA-Tuple or hex string
+        background_color (str, tuple): The background color. Name, RGBA-Tuple or hex string
         background_radius (int): The radius of the background corners.
         font_path (str): The path to the custom icon set font file.
         codepoints (dict): A dictionary of icon names and codepoints.
@@ -515,19 +595,19 @@ class CustomIconFactory(IconFactory):
                 f'You need to supply a font path and codepoint dictionary"'
             )
 
+        self.icon_set_name = icon_set
+        '''Stores the name of the icon set'''
+
         self.icon_set_version = version
         '''Stores the version string for the icon set'''
         
-        self.icon_set = icon_set
-        '''Stores the name of the icon set'''
-        
-        self.license = 'Unknown License'
-        '''For custom icon sets the default value is "Unknown License"'''
-
         self._codepoints = codepoints
 
         self.icon_names = list(self._codepoints.keys())
-        '''A list containing all icon names for the selected icon set'''
+        '''A list of all icon names for the selected icon set. When the documentation states that *"name" must be a valid key for the codepoints dictionary*, it means the name you enter must be included in this list.'''
+
+        self.license = 'Unknown License'
+        '''For custom icon sets the default value is "Unknown License"'''        
         
         font_size = self._check_font_vs_icon_size(font_size, icon_size)
 
@@ -538,10 +618,14 @@ class CustomIconFactory(IconFactory):
             "icon_size": icon_size,
             "icon_background_color": background_color,
             "icon_outline_width": outline_width,
-            "icon_outline_radius": background_radius,
+            "icon_background_radius": background_radius,
             "icon_outline_color": outline_color,
         }
 
+    def changeIconSet(self, icon_set: str):
+        '''Not implemented for CustomIconFactory'''
+        raise NotImplementedError('changeIconSet is not implemented for CustomIconFactory') 
+    
 if __name__ == "__main__":
     print(f"iconipy {_SCRIPT_VERSION}")
     print("--------------------------------------")

@@ -24,10 +24,10 @@ First you initialize an "IconFactory" with an icon set and look-and-feel setting
     
 Then you create your icons: 
 
-    icon_home = create_button_icon.asPil('house')
-    icon_reload = create_button_icon.asPil('refresh-cw')
-    icon_files = create_button_icon.asPil('files')
-    icon_exit_app = create_button_icon.asPil('log-out')
+    icon_home = create_button_icon.asPil('house') # PIL Image
+    icon_reload = create_button_icon.asQPixmap('refresh-cw') # Qt based frameworks
+    icon_files = create_button_icon.asTkPhotoImage('files') # tkinter, ttkbootstrap, PySimpleGUI, FreeSimpleGUI
+    icon_exit_app = create_button_icon.asRawList('log-out') # DearPyGUI
 
 Depending on your GUI toolkit's whims, you can create PIL Image Objects, ByteIO Objects, Byte-Strings, Raw Pixel Lists, TkPhotoImage Objects, QImage Objects, save to file, and more.
 

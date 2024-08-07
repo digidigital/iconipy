@@ -10,9 +10,9 @@
 import sys
 import random
 from iconipy import IconFactory
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel
+from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QWidget, QLabel
 from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtCore import Qt, QByteArray 
+from PyQt6.QtCore import Qt
 
 class MyWindow(QWidget):
     def __init__(self):
@@ -40,13 +40,11 @@ class MyWindow(QWidget):
                                 background_color = 'silver', 
                                 background_radius = 10
         )
-         
-        # Create Pixmap for Button-Icon & Label       
-        label_icon = QPixmap()
-        button_icon = QPixmap()
-        default_icon_name = 'circle-user-round'
-        label_icon.loadFromData(QByteArray(self.create_label_icon.asBytes(default_icon_name)))
-        button_icon.loadFromData(QByteArray(create_button_icon.asBytes('refresh-cw')))
+               
+        # Create Pixmap for Button-Icon & Label 
+        default_icon_name = 'circle-user-round' # Name will be displayed below the icon
+        label_icon = self.create_label_icon.asQPixmap(default_icon_name)
+        button_icon = QPixmap.fromImage(create_button_icon.asQImage('refresh-cw')) # Just to show that we can create QImages ;)
         
         # Set window size
         self.setFixedSize(220, 180)
@@ -81,8 +79,7 @@ class MyWindow(QWidget):
     def update_labels(self):
         # Create a new pixmap for the label
         random_icon_name = random.choice(self.create_label_icon.icon_names)
-        new_label_icon = QPixmap()
-        new_label_icon.loadFromData(QByteArray(self.create_label_icon.asBytes(random_icon_name)))
+        new_label_icon = self.create_label_icon.asQPixmap(random_icon_name)
         # Update labels with new pixmap and text
         self.label.setPixmap(new_label_icon)
         self.text_label.setText(random_icon_name)

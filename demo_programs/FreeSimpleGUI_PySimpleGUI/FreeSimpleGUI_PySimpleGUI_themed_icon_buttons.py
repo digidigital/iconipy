@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+
+##################################################
+# Copyright (c) 2024 Björn Seipel, digidigital   #
+# This program is released under the MIT license.#
+# Details can be found in the LICENSE file or at:#
+# https://opensource.org/licenses/MIT            #
+##################################################
+
 from iconipy import IconFactory
 from dataclasses import dataclass
 from random import choice
@@ -8,10 +16,9 @@ try:
 except:
     import PySimpleGUI as sg # Tested with version 4.60    
 
-# Set a theme first so you can access the themes colors
-# Theme is selected randomly
+# set a random theme 
 sg.theme(choice(sg.theme_list()))
-
+    
 # Class needed to provide dummy coordinates for the TooltipObject later on    
 @dataclass
 class Coordinates:
@@ -54,7 +61,7 @@ for button_name, icon_names in button_cfg.items():
 
 
 # Define the window's layout
-layout = [[sg.Button('No icon',                                key='-NO_ICON-',        tooltip='A regular button'),
+layout = [[sg.Button('No icon',                                   key='-NO_ICON-',     tooltip='A regular button'),
            sg.Button(image_data=button_icons['-PLAY_BUTTON-'][0], key='-PLAY_BUTTON-', tooltip='Play'),
            sg.Button(image_data=button_icons['-STOP_BUTTON-'][0], key='-STOP_BUTTON-', tooltip='Stop'),
            sg.Button(image_data=button_icons['-EXIT_BUTTON-'][0], key='-EXIT_BUTTON-', tooltip='Eject')]]

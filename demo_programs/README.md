@@ -8,6 +8,15 @@ These programs provide an overview of how to work with IconFactory Objects and a
 ![Screenshot of a DearPyGui application using iconipy icons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/DearPyGUI/DearPyGUI_screenshot.png)
 * Custom icon added to the push-button
 * Click on the button creates a new random icon
+## ttkbootstrap
+![Screenshot of a ttkbootstrap UI using iconipy icons on labels and buttons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/ttkbootstrap/ttkbootstrap_custom_icon_demo.png)
+* Icon on Label element (PhotoImage)
+* Icon on Button
+* Icon on Button with text
+* Icon on Label element (BitmapImage)
+
+![Screenshot of a ttkbootstrap MessageDialog with a custom icon.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/ttkbootstrap/ttkbootstrap_Messagedialog_custom_icon_demo.png)
+* A random icon is displayed in a MessageDialog
 ## FreeSimpleGUI & PySimpleGUI
 ![](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/FreeSimpleGUI_PySimpleGUI/FreeSimpleGUI_PySimpleGUI_themed_icon_buttons.png)
 * Icons added to Button
@@ -35,6 +44,10 @@ These programs provide an overview of how to work with IconFactory Objects and a
 ![Screenshot of a NiceGUI application using iconipy icons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/NiceGUI/NiceGUI_screenshot.png)
 * Custom icon added to the push-button
 * Click on the button creates a new random icon
+## wxPython
+![Screenshot of a wxPython GUI using iconipy icons on BitmapButton.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/wxPython/wxPython_iconipy_custom_icons.png)
+* Random icons used with BitmapButtons
+  
 ## Tkinter
 ![Screenshot of a tkinter application using iconipy icons.](https://raw.githubusercontent.com/digidigital/iconipy/main/demo_programs/tkinter/tkinter_screenshot.png)
 * Images / icons used as buttons

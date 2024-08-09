@@ -11,12 +11,14 @@ import wx
 from random import choice
 from iconipy import IconFactory
 
-class CustomButtonApp(wx.App):
-    def OnInit(self):
-        frame = wx.Frame(None, title="Custom Image Buttons", size=(120, 140))
-        panel = wx.Panel(frame)
+class MyFrame(wx.Frame):
+    def __init__(self, *args, **kw):
+        super(MyFrame, self).__init__(*args, **kw)
+        
+        # Create a panel
+        panel = wx.Panel(self)
 
-       # Initialize IconFactory for a simple icon with transparent background
+        # Initialize IconFactory for a simple icon with transparent background
         create_icon = IconFactory(icon_set = 'lucide', 
                         icon_size = 32, 
                         font_color = 'grey') # (reg, green, blue. alpha)
@@ -45,24 +47,19 @@ class CustomButtonApp(wx.App):
         bitmap2 = wx.Bitmap(icon2)
         
         # Create buttons with bitmap icons
-        simple_button1 = wx.BitmapButton(panel, bitmap=simple_bitmap1)
-        simple_button2 = wx.BitmapButton(panel, bitmap=simple_bitmap2)
+        simple_button1 = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=simple_bitmap1, pos=(35, 10))
+        simple_button2 = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=simple_bitmap2, pos=(110, 10))
         
-        button1 = wx.BitmapButton(panel, bitmap=bitmap1)
-        button2 = wx.BitmapButton(panel, bitmap=bitmap2)
-
-        # Arrange buttons in a grid (2 rows, 2 columns)
-        sizer = wx.GridSizer(rows=2, cols=2, vgap=10, hgap=10)
-        
-        for button in (simple_button1, simple_button2, button1, button2):
-            sizer.Add(button, 0, wx.EXPAND)
-
+        button1 = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=bitmap1, pos=(35, 65))
+        button2 = wx.BitmapButton(panel, id=wx.ID_ANY, bitmap=bitmap2, pos=(110, 65))
+       
         # Bind the close event to button2
-        button2.Bind(wx.EVT_BUTTON, self.OnClose)
-
-        panel.SetSizer(sizer)
-        frame.Show()
-        return True
+        button2.Bind(wx.EVT_BUTTON, self.on_close)
+        
+        # Set the frame size
+        self.SetSize(250, 205) 
+        self.SetTitle('wxPython Bitmap Buttons')
+        self.Centre()
 
     def pil_image_to_wx_image(self, pil_image):
         '''Converts a Pil Image object to wx.Image object'''
@@ -81,10 +78,15 @@ class CustomButtonApp(wx.App):
         
         return wx_image
         
-    def OnClose(self, event):
-        # Destroy the application
-        self.Destroy()
+    def on_close(self, event):
+        self.Close(True)
 
-if __name__ == "__main__":
-    app = CustomButtonApp()
+class MyApp(wx.App):
+    def OnInit(self):
+        frame = MyFrame(None)
+        frame.Show(True)
+        return True
+
+if __name__ == '__main__':
+    app = MyApp()
     app.MainLoop()

@@ -39,7 +39,7 @@ create_image = CustomIconFactory( # Use CustomIconFactory instead of IconFactory
                         codepoints = custom_icon_set_codepoints # Codepoint dictionary
 )
 
-# Test your custom icon set -> This might not work in the SNAP-version of Visual Studio Code!
+# Test your custom icon set
 create_image.show('favorite')
 
 # Dump all icons to harddrive

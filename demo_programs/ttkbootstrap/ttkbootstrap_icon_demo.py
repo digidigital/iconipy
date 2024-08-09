@@ -79,7 +79,7 @@ root = tb.Window(themename="morph")
 icon_image = random_PhotoImage_icon(create_icon)
 
 # Create an icon for the app
-app_icon = create_message_dialog_icon.asTkPhotoImage(choice(create_message_dialog_icon.icon_names))
+app_icon = create_icon.asTkPhotoImage('sticker')
 
 # Create icons for the buttons
 button1_icon = create_danger_icon.asTkPhotoImage('refresh')

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "iconipy"
 
-version = "0.1.1"
+version = "0.3.2"
 
 authors = [
   { name="Björn Seipel", email="support@digidigital.de" },
@@ -23,7 +23,7 @@ classifiers = [
     #   3 - Alpha
     #   4 - Beta
     #   5 - Production/Stable
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -38,3 +38,4 @@ dependencies = [
 Homepage = "https://github.com/digidigital/iconipy"
 Documentation = "https://iconipy.digidigital.de"
 Issues = "https://github.com/digidigital/iconipy/issues"
+SampleCode = "https://github.com/digidigital/iconipy/tree/main/demo_programs"

@@ -67,13 +67,16 @@ Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de f
 
 Iconify is totally unrelated to the iconipy project. Iconify is more mature and powerful, but the focus is on SVG files rather than bitmaps. You can explore it further on their website: https://iconify.design
 
-# iconipy API 0.3.0"""
+# iconipy API 0.3.2"""
 
 import os
 import io
 import re
+import sys
 import json
+import uuid
 from PIL import Image, ImageTk, ImageQt, ImageDraw, ImageFont, ImageOps
+from tempfile import TemporaryDirectory
 from typing import Union, Tuple
 
 _ColorAttributeType = Union[Tuple, str]
@@ -81,7 +84,7 @@ _SizeAttributeType = Union[Tuple, int]
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _ASSET_PATH = os.path.join(_SCRIPT_DIR, "assets")
-_SCRIPT_VERSION = "0.3.0"
+_SCRIPT_VERSION = "0.3.2"
 
 _lucide_cfg = {
     "FONT_FILE": os.path.join(_ASSET_PATH, "lucide", "lucide.ttf"),
@@ -272,6 +275,8 @@ class IconFactory:
             "icon_background_radius": background_radius,
         }
 
+        self._temp_dir = TemporaryDirectory()
+    
     def changeIconSet(self, icon_set: str) -> list:
         '''Change to a different icon set and retrieve a list containing the icon names
         of the new set. Available icon sets include: lucide, boxicons, lineicons, material_icons_regular, 
@@ -538,9 +543,15 @@ class IconFactory:
     def asQPixmap(self, name: str):
         """Create image as QPixmap Object, "name" must be a valid key for the codepoints dictionary"""
         return ImageQt.toqpixmap(self.asPil(name))
-
+    
+    def asTempFile(self, name: str, extension: str="png"):
+        '''Returns a path to a temporary image file.  If your framework only accepts file paths, you can use this function. The image format is determined by the file extension (Default is "png") and should be set to one of the formats supported by Pillow. Only formats that support transparency (ico, png, gif, webp, jp2, ...) are supported. "name" must be a valid key for the codepoints dictionary.'''
+        filepath = os.path.join(self._temp_dir.name, f'{str(uuid.uuid4())}.{extension.lower()}')
+        self.save(name, filepath)   
+        return filepath
+    
     def save(self, name: str, save_as: str):
-        """Saves the icon to file "save_as", the image format is determined by the file extension and should be set to one of the formats supported by Pillow, "name" must be a valid key for the codepoints dictionary"""
+        """Saves the icon to file "save_as", the image format is determined by the file extension and should be set to one of the formats supported by Pillow. Only formats that support transparency (ico, png, gif, webp, jp2, ...) are supported. "name" must be a valid key for the codepoints dictionary"""
         kwargs={}
         if save_as.lower().endswith('.ico'):
             kwargs['sizes'] = [self._drawing_kwargs['icon_size']]
@@ -625,7 +636,8 @@ class CustomIconFactory(IconFactory):
     def changeIconSet(self, icon_set: str):
         '''Not implemented for CustomIconFactory'''
         raise NotImplementedError('changeIconSet is not implemented for CustomIconFactory') 
-    
+ 
+
 if __name__ == "__main__":
     print(f"iconipy {_SCRIPT_VERSION}")
     print("--------------------------------------")

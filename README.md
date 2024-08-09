@@ -28,6 +28,7 @@ Then you create your icons:
     icon_reload = create_button_icon.asQPixmap('refresh-cw') # Qt based frameworks
     icon_files = create_button_icon.asTkPhotoImage('files') # tkinter, ttkbootstrap, PySimpleGUI, FreeSimpleGUI
     icon_exit_app = create_button_icon.asRawList('log-out') # DearPyGUI
+    icon_sticker = create_button_icon.asTempFile('sticker') # All the rest...
 
 Depending on your GUI toolkit's whims, you can create PIL Image Objects, ByteIO Objects, Byte-Strings, Raw Pixel Lists, TkPhotoImage Objects, QImage Objects, save to file, and more.
 

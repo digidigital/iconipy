@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 # Adapted from:
 # https://www.pythonguis.com/faq/built-in-qicons-pyqt/
 # https://www.pythonguis.com/tutorials/pyqt6-qscrollarea/#adding-a-qscrollarea-from-code

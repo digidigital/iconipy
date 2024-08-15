@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
+
 import random
 from iconipy import IconFactory
 import dearpygui.dearpygui as dpg
-
-##################################################
-# Copyright (c) 2024 Björn Seipel, digidigital   #
-# This program is released under the MIT license.#
-# Details can be found in the LICENSE file or at:#
-# https://opensource.org/licenses/MIT            #
-##################################################
 
 def image_refresh():
     # Create a new image with random codepoint

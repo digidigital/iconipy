@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from iconipy import IconFactory
 from dataclasses import dataclass
 from random import choice

@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
 
-##################################################
-# Copyright (c) 2024 Björn Seipel, digidigital   #
-# This program is released under the MIT license.#
-# Details can be found in the LICENSE file or at:#
-# https://opensource.org/licenses/MIT            #
-##################################################
-
 import tkinter as tk
 from iconipy import IconFactory
 
 # Define default attributes that are valid for all icons in a central place
 default_icon_size = 54
 default_font_size = 30
-default_radius = 0
+default_radius = 27
 default_background_color = None # Transparent background
 
 # Initialize icon factory with desired settings
@@ -32,7 +25,7 @@ create_mouseover_icon = IconFactory(icon_set = 'lucide',
                         font_size = default_font_size,  
                         font_color = (255,0,0,255), # red solid
                         outline_color = 'red', 
-                        outline_width = 10,
+                        outline_width = 8,
                         background_color = default_background_color, 
                         background_radius = default_radius)
 
@@ -49,20 +42,15 @@ def toggle_switch():
         # Add code here for when the switch is on the left
     switch_position_label.config(text=f"Switch position: {switch_state}")
 
-def door_mouse_over(event):
-    if event.type == '7': # 7 is "<Enter>" event
+def door_mouse_enter(event):
         door_button.config(image=icon_door_mouseover)
-    else:
-        door_button.config(image=icon_door)
 
-def door_click(event):
-    # Code here for when the door is clicked
-    exit()
+def door_mouse_leave(event):
+        door_button.config(image=icon_door)
 
 # Create the window
 window = tk.Tk()
 window.title("iconipy Button Demo")
-window.geometry("160x100")  # Set window size
 
 # Create regular icons 
 # Hint: The icon names for the icon set 'lucide' are listed here -> https://lucide.dev/icons/
@@ -76,20 +64,21 @@ icon_door_mouseover = create_mouseover_icon.asTkPhotoImage('door-open')
 # Switch state
 switch_state = "left"
 
-# Display switch position
-switch_position_label = tk.Label(window, text="Switch position: left")
-switch_position_label.pack(side="bottom")
-
 # Switch button
-switch_button = tk.Button(window, image=icon_toggle_left, command=toggle_switch, bd=0, highlightthickness=0)
-switch_button.pack(side="left")
+switch_button = tk.Button(window, image=icon_toggle_left, command=toggle_switch, bd=0, background="lightgrey", activebackground="lightgrey", highlightthickness=0)
+switch_button.grid(row=0, column=0, padx=5, pady=5)
 
 # Door button
-door_button = tk.Button(window, image=icon_door, bd=0, highlightthickness=0)
-door_button.pack(side="right")  
-door_button.bind("<Enter>", door_mouse_over)
-door_button.bind("<Leave>", door_mouse_over)
-door_button.bind("<Button-1>", door_click)
+door_button = tk.Button(window, image=icon_door, command=window.destroy, bd=0, background="lightgrey", activebackground="lightgrey", highlightthickness=0)
+door_button.grid(row=0, column=1, padx=5, pady=5)
+
+# Bind events
+door_button.bind("<Enter>", door_mouse_enter)
+door_button.bind("<Leave>", door_mouse_leave)
+
+# Display switch position
+switch_position_label = tk.Label(window, width=20, text="Switch position: left")
+switch_position_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
 # Start the event loop
 window.mainloop()

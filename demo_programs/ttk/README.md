@@ -1,4 +1,4 @@
-Hello world example for tkinter:
+iconipy 'Hello world' example for ttk:
 
     import tkinter as tk
     from tkinter import ttk

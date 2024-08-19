@@ -35,11 +35,9 @@ class MyWindow(QWidget):
         )
          
         # Create Pixmap for Button-Icon & Label       
-        label_icon = QPixmap()
-        button_icon = QPixmap()
         default_icon_name = 'circle-user-round'
-        label_icon.loadFromData(QByteArray(self.create_label_icon.asBytes(default_icon_name)))
-        button_icon.loadFromData(QByteArray(create_button_icon.asBytes('refresh-cw')))
+        label_icon = self.create_label_icon.asQPixmap(default_icon_name)
+        button_icon = create_button_icon.asQPixmap('refresh-cw')
         
         # Set window size
         self.setFixedSize(220, 180)
@@ -53,8 +51,7 @@ class MyWindow(QWidget):
         
         # Create a label to hold an image
         self.label = QLabel()
-        pixmap = QPixmap(label_icon) 
-        self.label.setPixmap(pixmap)
+        self.label.setPixmap(label_icon)
         
         # Create a button
         button = QPushButton('')
@@ -74,8 +71,8 @@ class MyWindow(QWidget):
     def update_labels(self):
         # Create a new pixmap for the label
         random_icon_name = random.choice(self.create_label_icon.icon_names)
-        new_label_icon = QPixmap()
-        new_label_icon.loadFromData(QByteArray(self.create_label_icon.asBytes(random_icon_name)))
+        new_label_icon = self.create_label_icon.asQPixmap(random_icon_name)
+
         # Update labels with new pixmap and text
         self.label.setPixmap(new_label_icon)
         self.text_label.setText(random_icon_name)

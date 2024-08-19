@@ -55,4 +55,4 @@ A bit more complex:
     # Start the event loop
     window.mainloop()
 
-See the other demo programs for even more complex examples.
+Check out the other demo programs in this directory for even more intricate examples.

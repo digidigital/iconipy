@@ -49,17 +49,20 @@ A bit more complex:
 
 See the other demo programs for more complex examples like this one:
 
-        # Initialize IconFactory for light mode    
-        lightmode_icon = IconFactory(
-            font_color = 'white'
-        )
+    import customtkinter as ctk
+    from iconipy import IconFactory
+    
+    # Initialize IconFactory for light mode    
+    lightmode_icon = IconFactory(
+        font_color = 'white'
+    )
 
-        # Initialize IconFactory for dark mode
-        darkmode_icon = IconFactory(
-            font_color = 'silver'
-        )
+    # Initialize IconFactory for dark mode
+    darkmode_icon = IconFactory(
+        font_color = 'silver'
+    )
 
-        # Create a CTkImage that has one image for light mode and one for dark mode
-        button_icon = customtkinter.CTkImage(light_image=lightmode_icon.asPil('sticker'),
-                      dark_image=darkmode_icon.asPil('sticker'),
-                      size=(20,20))
+    # Create a CTkImage that has one image for light mode and one for dark mode
+    button_icon = ctk.CTkImage(light_image=lightmode_icon.asPil('sticker'),
+                  dark_image=darkmode_icon.asPil('sticker'),
+                  size=(20,20))

@@ -54,4 +54,20 @@ The icon sets you can choose from include: lucide, boxicons, lineicons, material
         
 💁 **More info** 
     
-Check out the [demo programs](https://github.com/digidigital/iconipy/tree/main/demo_programs) and https://iconipy.digidigital.de for sample code for the most popular GUI toolkits and detailed documentation. 🧘
+Check out https://iconipy.digidigital.de for detailed documentation. 🧘
+
+🆒 **Sample code for the most popular Python GUI toolkits / frameworks**
+
+Learn how to use iconipy to add custom icons to your Python applications:
+* [tkinter](https://github.com/digidigital/iconipy/tree/main/demo_programs/tkinter)
+* [ttk](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttk)
+* [ttkbootstrap](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttkbootstrap)
+* [CustomTkinter](https://github.com/digidigital/iconipy/tree/main/demo_programs/customtkinter)
+* [wxPython](https://github.com/digidigital/iconipy/tree/main/demo_programs/wxPython)
+* [PyQt6](https://github.com/digidigital/iconipy/tree/main/demo_programs/PyQt6)
+* [PySide6](https://github.com/digidigital/iconipy/tree/main/demo_programs/PySide6)
+* [FreeSimpleGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/FreeSimpleGUI_PySimpleGUI)
+* [PySimpleGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/FreeSimpleGUI_PySimpleGUI)
+* [DearPyGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/DearPyGUI)
+* [NiceGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/NiceGUI)
+* [Kivy](https://github.com/digidigital/iconipy/tree/main/demo_programs/kivy)

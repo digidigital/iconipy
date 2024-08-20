@@ -26,7 +26,7 @@ while True:
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
 ```
-Themed icon buttons:
+Themed icon buttons with mouseover effect:
 
 ```python
 from iconipy import IconFactory

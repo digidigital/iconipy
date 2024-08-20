@@ -2,7 +2,7 @@ iconipy 'Hello World Button' example for FreeSimpleGUI and PySimpleGUI:
 
 ```python
 try:
-    import PySimpleGUI as sg
+    import FreeSimpleGUI as sg
 except:
     import PySimpleGUI as sg
     

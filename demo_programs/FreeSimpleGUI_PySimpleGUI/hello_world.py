@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 try:
-    import PySimpleGUI as sg
+    import FreeSimpleGUI as sg
 except:
     import PySimpleGUI as sg
     

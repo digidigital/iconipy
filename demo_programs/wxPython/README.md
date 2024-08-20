@@ -1,6 +1,6 @@
 iconipy 'Hello world' example for wxPython:
 
-```
+```python
 import wx
 from iconipy import IconFactory
 
@@ -27,7 +27,7 @@ app.MainLoop()
 
 If you prefer PIL Image Objects over temp files:
 
-```
+```python
 import wx
 from random import choice
 from iconipy import IconFactory

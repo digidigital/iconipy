@@ -14,6 +14,7 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [DearPyGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/DearPyGUI)
 * [NiceGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/NiceGUI)
 * [Kivy](https://github.com/digidigital/iconipy/tree/main/demo_programs/kivy)
+* [appJar](https://github.com/digidigital/iconipy/tree/main/demo_programs/appJar)
 * [Add your own icon sets to iconipy](https://github.com/digidigital/iconipy/tree/main/demo_programs/CustomIconFactory)
 
 More documentation: [API Documentation](https://iconipy.digidigital.de).

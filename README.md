@@ -61,7 +61,7 @@ The icon sets you can choose from include: lucide, boxicons, lineicons, material
     
 Check out https://iconipy.digidigital.de for detailed documentation. 🧘
 
-🆒 **Sample code for the most popular Python GUI toolkits / frameworks**
+🆒 **code samples for the most popular Python GUI toolkits / frameworks**
 
 Learn how to use iconipy to add custom icons to your Python applications:
 * [tkinter](https://github.com/digidigital/iconipy/tree/main/demo_programs/tkinter)

@@ -68,6 +68,7 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [ttk](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttk)
 * [ttkbootstrap](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttkbootstrap)
 * [CustomTkinter](https://github.com/digidigital/iconipy/tree/main/demo_programs/customtkinter)
+* [Gradio](https://github.com/digidigital/iconipy/tree/main/demo_programs/gradio)
 * [wxPython](https://github.com/digidigital/iconipy/tree/main/demo_programs/wxPython)
 * [PyQt6](https://github.com/digidigital/iconipy/tree/main/demo_programs/PyQt6)
 * [PySide6](https://github.com/digidigital/iconipy/tree/main/demo_programs/PySide6)

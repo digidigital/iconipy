@@ -45,7 +45,7 @@ You need to preview an icon? Here we go:
 
     create_button_icon.show('house')
 
-The icon sets you can choose from include: lucide, boxicons, lineicons, material_icons_regular, material_icons_round_regular, material_icons_sharp_regular, and material_icons_outlined_regular.
+The icon sets you can choose from include: lucide, boxicons, ligature_symbols, lineicons, material_icons_regular, material_icons_round_regular, material_icons_sharp_regular, material_icons_outlined_regular, microns and typicons.
 
 Feeling adventurous? Dump all the icons to your hard drive and explore:
 
@@ -58,6 +58,10 @@ You need a hand? Check what the icon set has to offer:
 Just want a list with all icon names? No problem:
 
     print(create_button_icon.icon_names)
+    
+Are you curious if the new version has new icon sets to choose from? 
+    
+    print(create_button_icon.icon_sets_available)
         
 **More info**
     
@@ -67,7 +71,11 @@ Visit https://github.com/digidigital/iconipy or https://iconipy.digidigital.de f
 
 Iconify is totally unrelated to the iconipy project. Iconify is more mature and powerful, but the focus is on SVG files rather than bitmaps. You can explore it further on their website: https://iconify.design
 
-# iconipy API 0.3.2"""
+**PyInstaller issues**
+
+As of 0.4.0, iconipy has a pyinstaller hook that fixes a previous issue where the assets folder was not added to the frozen application. You no longer need to specify a hidden import or customize the spec file.
+
+# iconipy API 0.4.0"""
 
 import os
 import io
@@ -84,13 +92,34 @@ _SizeAttributeType = Union[Tuple, int]
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _ASSET_PATH = os.path.join(_SCRIPT_DIR, "assets")
-_SCRIPT_VERSION = "0.3.2"
+_SCRIPT_VERSION = "0.4.0"
 
 _lucide_cfg = {
     "FONT_FILE": os.path.join(_ASSET_PATH, "lucide", "lucide.ttf"),
     "METADATA_FILE": os.path.join(_ASSET_PATH, "lucide", "info.json"),
     "VERSION_FILE": os.path.join(_ASSET_PATH, "lucide", "version.txt"),
     "LICENSE_FILE": os.path.join(_ASSET_PATH, "lucide", "LICENSE.txt"),
+}
+
+_ligature_symbols_cfg = {
+    "FONT_FILE": os.path.join(_ASSET_PATH, "ligature_symbols", "LigatureSymbols-2.11.ttf"),
+    "METADATA_FILE": os.path.join(_ASSET_PATH, "ligature_symbols", "index.html"),
+    "VERSION_FILE": os.path.join(_ASSET_PATH, "ligature_symbols", "version.txt"),
+    "LICENSE_FILE": os.path.join(_ASSET_PATH, "ligature_symbols", "LICENSE.txt"),
+}
+
+_microns_cfg = {
+    "FONT_FILE": os.path.join(_ASSET_PATH, "microns", "microns.ttf"),
+    "METADATA_FILE": os.path.join(_ASSET_PATH, "microns", "microns.css"),
+    "VERSION_FILE": os.path.join(_ASSET_PATH, "microns", "version.txt"),
+    "LICENSE_FILE": os.path.join(_ASSET_PATH, "microns", "LICENCE.md"),
+}
+
+_typicons_cfg = {
+    "FONT_FILE": os.path.join(_ASSET_PATH, "typicons", "typicons.ttf"),
+    "METADATA_FILE": os.path.join(_ASSET_PATH, "typicons", "typicons.css"),
+    "VERSION_FILE": os.path.join(_ASSET_PATH, "typicons", "version.txt"),
+    "LICENSE_FILE": os.path.join(_ASSET_PATH, "typicons", "LICENCE.md"),
 }
 
 _boxicons_cfg = {
@@ -201,6 +230,9 @@ _material_icons_outlined_regular_cfg = {
 
 _ICON_SETS = {
     "lucide": _lucide_cfg,
+    "ligature_symbols": _ligature_symbols_cfg,
+    "microns": _microns_cfg,
+    "typicons": _typicons_cfg,
     "boxicons": _boxicons_cfg,
     "lineicons": _lineicons_cfg,
     "material_icons_regular": _material_icons_regular_cfg,
@@ -208,6 +240,7 @@ _ICON_SETS = {
     "material_icons_sharp_regular": _material_icons_sharp_regular_cfg,
     "material_icons_outlined_regular": _material_icons_outlined_regular_cfg,
 }
+
 
 
 class IconFactory:
@@ -224,7 +257,7 @@ class IconFactory:
         background_color (str, tuple): The background color. Name or RGBA-Tuple or hex string
         background_radius (int): The radius of the background corners.
     """
-
+       
     _all_codepoints = {}
 
     def __init__(
@@ -242,7 +275,7 @@ class IconFactory:
             raise ValueError(f'Unknown icon set "{icon_set}"')
 
         self.icon_set_name = icon_set
-        '''Stores the name of the icon set'''
+        '''Stores the name of the icon set that is used to create the icons'''
         
         self.icon_set_version = self._get_icon_set_version(
             _ICON_SETS[icon_set]["VERSION_FILE"]
@@ -254,7 +287,7 @@ class IconFactory:
         except KeyError:
             IconFactory._all_codepoints = self._read_codepoints()
             self._codepoints = IconFactory._all_codepoints[icon_set]
-        
+               
         self.icon_names = list(self._codepoints.keys())
         '''A list of all icon names for the selected icon set. When the documentation states that *"name" must be a valid key for the codepoints dictionary*, it means the name you enter must be included in this list.'''
         
@@ -263,6 +296,9 @@ class IconFactory:
         )
         '''The icon set's license'''        
         font_size = self._check_font_vs_icon_size(font_size, icon_size)
+        
+        self.icon_sets_available = list(_ICON_SETS.keys())
+        '''A list containing all icon sets that are installed'''
         
         self._drawing_kwargs = {
             "font_path": _ICON_SETS[icon_set]["FONT_FILE"],
@@ -365,7 +401,7 @@ class IconFactory:
                 for key in codepoint_data.keys():
                     icon_set_codepoints[key] = codepoint_data[key]["encodedCode"][1:]
 
-            elif icon_set == "boxicons":
+            elif icon_set in ("boxicons", "microns", "typicons"):
                 pattern = re.compile(
                     r'.*\.(?P<codepoint_key>([a-z0-9]*-){1,4}[a-z0-9]*):.*\n.*"\\(?P<codepoint_value>.*)";'
                 )
@@ -382,6 +418,21 @@ class IconFactory:
                         codepoint_value = match.group("codepoint_value")
                         icon_set_codepoints[codepoint_key] = codepoint_value
 
+            elif icon_set == "ligature_symbols":
+                # Read the HTML content from a file
+                with open(_METADATA_FILE, 'r', encoding='utf-8') as ls_codepoint_file:
+                    html_string = ls_codepoint_file.read()
+
+                pattern = re.compile(
+                    r'<td class="lsf symbol">(.+?)</td>\s*<td class="ligature">.+?</td>\s*<td class="unicode">\\(.+?)</td>'
+                )
+                
+                # Find matches
+                matches = pattern.findall(html_string)
+                
+                # Populate the dictionary with the matches
+                icon_set_codepoints = {match[0]: match[1] for match in matches}              
+                
             elif icon_set == "lineicons":
                 with open(_METADATA_FILE) as json_data:
                     codepoint_data = json.load(json_data)

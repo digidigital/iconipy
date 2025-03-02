@@ -1,1 +1,3 @@
+include iconipy/pyinstaller_hooks/*
+include iconipy/__pyinstaller.py
 recursive-include src/iconipy/assets/ *

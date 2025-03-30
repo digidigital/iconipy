@@ -6,6 +6,7 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [ttk](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttk)
 * [ttkbootstrap](https://github.com/digidigital/iconipy/tree/main/demo_programs/ttkbootstrap)
 * [CustomTkinter](https://github.com/digidigital/iconipy/tree/main/demo_programs/customtkinter)
+* [guizero](https://github.com/digidigital/iconipy/tree/main/demo_programs/guizero)
 * [Gradio](https://github.com/digidigital/iconipy/tree/main/demo_programs/gradio)
 * [wxPython](https://github.com/digidigital/iconipy/tree/main/demo_programs/wxPython)
 * [PyQt6](https://github.com/digidigital/iconipy/tree/main/demo_programs/PyQt6)
@@ -17,5 +18,10 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [Kivy](https://github.com/digidigital/iconipy/tree/main/demo_programs/kivy)
 * [appJar](https://github.com/digidigital/iconipy/tree/main/demo_programs/appJar)
 * [Add your own icon sets to iconipy](https://github.com/digidigital/iconipy/tree/main/demo_programs/CustomIconFactory)
+
+This was added just for fun:
+* [FPDF2 (.pdf)](https://github.com/digidigital/iconipy/tree/main/demo_programs/FPDF2)
+* [docx (.docx)](https://github.com/digidigital/iconipy/tree/main/demo_programs/docx)
+* [openpyxl (.xslx)](https://github.com/digidigital/iconipy/tree/main/demo_programs/openpyxl)
 
 More documentation: [API Documentation](https://iconipy.digidigital.de).

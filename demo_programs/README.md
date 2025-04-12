@@ -17,11 +17,14 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [NiceGUI](https://github.com/digidigital/iconipy/tree/main/demo_programs/NiceGUI)
 * [Kivy](https://github.com/digidigital/iconipy/tree/main/demo_programs/kivy)
 * [appJar](https://github.com/digidigital/iconipy/tree/main/demo_programs/appJar)
+* [toga](https://github.com/digidigital/iconipy/tree/main/demo_programs/toga)
+* [pyGObject](https://github.com/digidigital/iconipy/tree/main/demo_programs/pyGObject)
 * [Add your own icon sets to iconipy](https://github.com/digidigital/iconipy/tree/main/demo_programs/CustomIconFactory)
 
 This was added just for fun:
 * [FPDF2 (.pdf)](https://github.com/digidigital/iconipy/tree/main/demo_programs/FPDF2)
 * [docx (.docx)](https://github.com/digidigital/iconipy/tree/main/demo_programs/docx)
 * [openpyxl (.xslx)](https://github.com/digidigital/iconipy/tree/main/demo_programs/openpyxl)
+* [pptx](https://github.com/digidigital/iconipy/tree/main/demo_programs/pptx)
 
 More documentation: [API Documentation](https://iconipy.digidigital.de).

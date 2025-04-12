@@ -21,7 +21,6 @@ Learn how to use iconipy to add custom icons to your Python applications:
 * [pyGObject](https://github.com/digidigital/iconipy/tree/main/demo_programs/pyGObject)
 * [pygame -> pygame-gui](https://github.com/digidigital/iconipy/tree/main/demo_programs/pygame-gui)
 * [pygame -> pgzero](https://github.com/digidigital/iconipy/tree/main/demo_programs/pgzero)
-
 * [Add your own icon sets to iconipy](https://github.com/digidigital/iconipy/tree/main/demo_programs/CustomIconFactory)
 
 This was added just for fun:

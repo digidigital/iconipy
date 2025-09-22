@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="iconipy",
-    version="0.4.0",
+    version="0.5.1",
     author="Björn Seipel",
     author_email="support@digidigital.de",
     description="Create icons for user interfaces directly from your Python code.",

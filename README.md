@@ -13,7 +13,7 @@ First you initialize an "IconFactory" with an icon set and look-and-feel setting
     
     create_button_icon = IconFactory(
                             icon_set = 'lucide', 
-                            icon_size = (64,64), # Providing just an integer would produce a square icon 
+                            icon_size = (128,64), # Providing just an integer would produce a square icon 
                             font_size = 38,  
                             font_color = (0, 0, 0, 255), # Solid black in RGBA format (R, G, B, A)
                             outline_color = 'dimgrey',   # Color names are also supported

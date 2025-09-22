@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ##################################################
-# Copyright (c) 2024 Björn Seipel, digidigital   #
+# Copyright (c) 2025 Björn Seipel, digidigital   #
 # This program is released under the MIT license.#
 # Details can be found in the LICENSE file or at:#
 # https://opensource.org/licenses/MIT            #
@@ -23,10 +23,10 @@ First you initialize an "IconFactory" with an icon set and look-and-feel setting
     
     create_button_icon = IconFactory(
                             icon_set = 'lucide', 
-                            icon_size = 64, 
+                            icon_size = (64,64),         # Set width and height 
                             font_size = 38,  
-                            font_color = (0, 0, 0, 255), # black solid
-                            outline_color = 'dimgrey', 
+                            font_color = (0, 0, 0, 255), # Solid black in RGBA format (R, G, B, A)
+                            outline_color = 'dimgrey',   # Color names are also supported
                             outline_width = 6,
                             background_color = 'silver', 
                             background_radius = 10
@@ -75,7 +75,7 @@ Iconify is totally unrelated to the iconipy project. Iconify is more mature and 
 
 As of 0.4.0, iconipy has a pyinstaller hook that fixes a previous issue where the assets folder was not added to the frozen application. You no longer need to specify a hidden import or customize the spec file.
 
-# iconipy API 0.4.0"""
+# iconipy API 0.5.1"""
 
 import os
 import io
@@ -92,7 +92,7 @@ _SizeAttributeType = Union[Tuple, int]
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _ASSET_PATH = os.path.join(_SCRIPT_DIR, "assets")
-_SCRIPT_VERSION = "0.4.0"
+_SCRIPT_VERSION = "0.5.1"
 
 _lucide_cfg = {
     "FONT_FILE": os.path.join(_ASSET_PATH, "lucide", "lucide.ttf"),
@@ -246,10 +246,11 @@ _ICON_SETS = {
 class IconFactory:
     """Create an IconFactory for one of the icon sets included with iconipy. All icons created by this 
     IconFactory will share the same settings, allowing you to change the style for all icons upon 
-    initialization.
+    initialization. Providing icon_size as an integer produces a square icon with identical height and 
+    width. Passing a tuple (width, height) enables rectangular dimensions.
     
         icon_set (str): The name of the icon set that will be used to create the icon.
-        icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+        icon_size (int, tuple): The dimensions of the icons in pixels. Single int value or tuple (width, height)
         font_size (int): The size of the font. Default is icon_size
         font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
         outline_width (int): The width of the outline. 0 does not draw an outline
@@ -347,7 +348,7 @@ class IconFactory:
         the updated configuration. Typically, distinct IconFactories are created for different icon 
         styles, but there may be scenarios where reusing an existing object is desirable.
         
-            icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+            icon_size (int, tuple): The dimensions of the icons in pixels. Single int value or tuple (width, height)
             font_size (int): The size of the font. Default is icon_size
             font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
             outline_width (int): The width of the outline. 0 does not draw an outline
@@ -623,10 +624,12 @@ class CustomIconFactory(IconFactory):
     (supported by the FreeType library, e.g., TrueType, OpenType) and a
     dictionary of codepoints. The dictionary keys should be the icon names
     ('microphone'), and the values should be the corresponding
-    hexadecimal codepoints ('E02A').
+    hexadecimal codepoints ('E02A'). Providing icon_size as an integer produces 
+    a square icon with identical height and width. Passing a tuple (width, height) 
+    enables rectangular dimensions.
     
         icon_set (str): The name of the icon set that will be used to create the icon.
-        icon_size (int, tuple): The size of the icons in pixels. Single int value or (int, int)
+        icon_size (int, tuple): The dimensions of the icons in pixels. Single int value or tuple (width, height) 
         font_size (int): The size of the font. Default is icon_size
         font_color (str, tuple): The color of the font. Name, RGBA-Tuple or hex string
         outline_width (int): The width of the outline. 0 does not draw an outline
